@@ -1,4 +1,5 @@
 ﻿using Android.App;
+using Android.Content;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -11,7 +12,7 @@ using WMCommission.Models;
 namespace WMCommission
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
-    public class MainActivity : AppCompatActivity, BottomNavigationView.IOnNavigationItemSelectedListener
+    public class MainActivity : AppCompatActivity
     {
         TextView textMessage;
 
@@ -21,9 +22,23 @@ namespace WMCommission
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
 
+            Button btnVenda = FindViewById<Button>(Resource.Id.btnVenda);
+            Button btnBanco = FindViewById<Button>(Resource.Id.btnBanco);
+
+            btnVenda.Click += (sender, e) =>
+            {
+                var intent = new Intent(this, typeof(VendaActivity));
+                StartActivity(intent);
+            };
+
+            // Ação do botão Banco
+            btnBanco.Click += (sender, e) =>
+            {
+                var intent = new Intent(this, typeof(BancoActivity));
+                StartActivity(intent);
+            };
+
             textMessage = FindViewById<TextView>(Resource.Id.message);
-            BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigation);
-            navigation.SetOnNavigationItemSelectedListener(this);
             /*
             // Instancia a lista de vendas
             var listaDeVendas = new ListaDeVendas();
@@ -42,22 +57,19 @@ namespace WMCommission
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-        public bool OnNavigationItemSelected(IMenuItem item)
+        /*public bool OnNavigationItemSelected(IMenuItem item)
         {
             switch (item.ItemId)
             {
-                case Resource.Id.navigation_home:
+                case Resource.Id.navigation_venda:
                     textMessage.SetText(Resource.String.title_home);
                     return true;
-                case Resource.Id.navigation_dashboard:
+                case Resource.Id.navigation_gerenciar:
                     textMessage.SetText(Resource.String.title_dashboard);
-                    return true;
-                case Resource.Id.navigation_notifications:
-                    textMessage.SetText(Resource.String.title_notifications);
                     return true;
             }
             return false;
-        }
+        }*/
     }
 }
 
